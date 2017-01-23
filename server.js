@@ -13,12 +13,33 @@ var connection = mysql.createConnection( {
   database: 'turnomatic'
 });
 
-connection.connect();
+connection.connect(function (err) {
+  if (err) {
+    console.log('Error connecting to database', err);
+    return;
+  }
+  console.log('Server up and running');
+});
 
 app.use(bodyParser.json());
 app.use(express.static('client'));
 
+app.post('/turnomatic', function(req, res) {
+  if (true) {
+    var data = {
+      "status": "ok",
+      "number": req.body.case
+    };
+  } else {
+    data = {
+      "status": "error",
+      "message": "server error, please find a member of staff to get your number"
+    }
+  }
 
+  var serverResponse = data;
+  res.status(200).send(JSON.stringify(serverResponse));
+});
 
 
 app.listen(3000);
