@@ -17,7 +17,7 @@ connection.connect(function (err) {
   if (err) {
     console.log('Error connecting to database', err);
     return;
-  }
+  };
   console.log('Server up and running');
 });
 
@@ -25,25 +25,28 @@ app.use(bodyParser.json());
 app.use(express.static('client'));
 
 app.post('/turnomatic', function(req, res) {
+
+  connection.query('INSERT INTO cases (case_type) VALUES (?)', [req.body.case], function (err, rows) {
+    var numCases = rows.insertId;
+    if (err) throw err;
+
   if (true) {
     var data = {
       "status": "ok",
-      "number": req.body.case
+      "number": numCases
     };
   } else {
     data = {
       "status": "error",
       "message": "server error, please find a member of staff to get your number"
-    }
-  }
+    };
+  };
 
-  connection.query('INSERT INTO cases (case_type) VALUES (?)', [req.body.case], function (err, rows) {
-    if (err) throw err;
-  });
+  console.log(data);
 
   var serverResponse = data;
   res.status(200).send(JSON.stringify(serverResponse));
+  });
 });
-
 
 app.listen(3000);

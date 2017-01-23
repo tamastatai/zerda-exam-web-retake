@@ -8,7 +8,7 @@ var select = document.querySelector('#select');
 var ul = document.querySelector('#result');
 
 button.addEventListener('click', function () {
-  button.innerHTML = "Loading";
+  button.innerText = "Loading";
 
   var xhr = new XMLHttpRequest();
   xhr.open('POST', 'http://localhost:3000/turnomatic');
@@ -20,11 +20,12 @@ button.addEventListener('click', function () {
 
   xhr.onreadystatechange = function () {
     if(xhr.readyState === XMLHttpRequest.DONE) {
+      button.innerText = 'Get another number';
       var li = document.createElement('li');
-      li.innerText = xhr.responseText;
+      li.innerText = 'Your number is ' + xhr.responseText;
       ul.appendChild(li);
     }
   };
 
-  xhr.send(JSON.stringify(feedback));
+xhr.send(JSON.stringify(feedback));
 });
