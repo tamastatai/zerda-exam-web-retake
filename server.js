@@ -37,6 +37,10 @@ app.post('/turnomatic', function(req, res) {
     }
   }
 
+  connection.query('INSERT INTO cases (case_type) VALUES (?)', [req.body.case], function (err, rows) {
+    if (err) throw err;
+  });
+
   var serverResponse = data;
   res.status(200).send(JSON.stringify(serverResponse));
 });
